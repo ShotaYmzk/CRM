@@ -2,12 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { HeroUIProvider, ToastProvider } from "@heroui/react"
-import App from './App.tsx'
+import App from './app'
 import './index.css'
-import { ThemeProvider } from './contexts/ThemeContext.tsx'
-import { AuthProvider } from './contexts/AuthContext.tsx'
+import { ThemeProvider } from './contexts/ThemeContext'
+import { AuthProvider } from './contexts/AuthContext'
 import { SWRConfig } from 'swr'
-import { fetcher } from './utils/api.ts'
+import { fetcher } from './utils/api'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -219,7 +219,7 @@ export const mockContacts: Contact[] = [
 // モック取引データ
 export const mockDeals: Deal[] = [
   {
-    id: '1',
+    id: "1",
     title: 'AIソリューション導入プロジェクト',
     stage: 'negotiation',
     amount: 15000000,
@@ -234,7 +234,7 @@ export const mockDeals: Deal[] = [
     notes: '顧客のニーズに合わせたAIソリューションの提案。予算調整中。'
   },
   {
-    id: '2',
+    id: "2",
     title: '海外展開支援コンサルティング',
     stage: 'new',
     amount: 8500000,
@@ -249,7 +249,7 @@ export const mockDeals: Deal[] = [
     notes: 'アジア市場への展開を検討中。初期提案段階。'
   },
   {
-    id: '3',
+    id: "3",
     title: '研究開発パートナーシップ',
     stage: 'contract',
     amount: 25000000,
@@ -264,7 +264,7 @@ export const mockDeals: Deal[] = [
     notes: '共同研究開発契約の最終段階。契約書レビュー中。'
   },
   {
-    id: '4',
+    id: "4",
     title: 'ブランドリニューアルプロジェクト',
     stage: 'negotiation',
     amount: 6000000,
@@ -279,7 +279,7 @@ export const mockDeals: Deal[] = [
     notes: 'コーポレートアイデンティティの刷新。予算と範囲について交渉中。'
   },
   {
-    id: '5',
+    id: "5",
     title: '持続可能建築プロジェクト',
     stage: 'new',
     amount: 120000000,
@@ -294,7 +294,7 @@ export const mockDeals: Deal[] = [
     notes: '環境に配慮した新オフィスビル建設の初期提案。'
   },
   {
-    id: '6',
+    id: "6",
     title: 'デジタルトランスフォーメーション支援',
     stage: 'lost',
     amount: 18000000,

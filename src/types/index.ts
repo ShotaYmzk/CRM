@@ -111,7 +111,7 @@ export interface User {
       type: 'contact' | 'company' | 'deal';
       id: string;
       name: string;
-    };
+    }|null;
     status?: string;
     createdBy?: string;
   }
@@ -128,7 +128,7 @@ export interface User {
     relatedTo?: {
       type: 'contact' | 'company' | 'deal';
       id: string;
-    };
+    }|null;
     createdAt: string;
     updatedAt: string;
   }
@@ -177,3 +177,5 @@ export interface User {
     success: boolean;
   }
   
+  // ディールステージの型 (追加)
+  export type DealStage = 'new' | 'negotiation' | 'contract' | 'lost';

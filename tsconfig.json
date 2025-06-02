@@ -1,0 +1,28 @@
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true, // ファイル名の大文字・小文字を区別
+    "module": "ESNext",
+    "moduleResolution": "bundler", // Vite 5+ 推奨
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true, // TypeScriptは型チェックのみ、ビルドはVite
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": false, // 開発中はfalseにしておくと便利
+    "noUnusedParameters": false, // 開発中はfalseにしておくと便利
+    "noFallthroughCasesInSwitch": true,
+    // "allowImportingTsExtensions": false, // 通常は不要。もしエラーが続くなら明示的にfalseを試す
+  },
+  "include": ["src"], // srcディレクトリ全体と、プロジェクトルートの特定のTS/TSXファイルを含める
+  "references": [{ "path": "./tsconfig.node.json" }] // Node.js環境用の設定ファイルを参照
+}
