@@ -13,8 +13,8 @@ interface RunHistoryPanelProps {
 
 const RunHistoryPanel: React.FC<RunHistoryPanelProps> = ({ workflowId, runs }) => {
   return (
-    <aside className="w-80 border-l border-divider bg-content1 flex flex-col">
-      <CardHeader className="p-4 flex justify-between items-center">
+    <Card className="w-80 border-l border-divider bg-content1 flex flex-col h-full shadow-none rounded-none">
+      <CardHeader className="p-4 flex justify-between items-center flex-shrink-0">
         <h3 className="text-md font-semibold">実行履歴</h3>
         <Button size="sm" variant="light" isIconOnly>
             <Icon icon="lucide:refresh-cw" className="w-4 h-4"/>
@@ -71,7 +71,7 @@ const RunHistoryPanel: React.FC<RunHistoryPanelProps> = ({ workflowId, runs }) =
           </ul>
         )}
       </CardBody>
-    </aside>
+    </Card>
   );
 };
 
