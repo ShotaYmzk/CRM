@@ -15,6 +15,7 @@ import CalendarPage from './pages/CalendarPage';
 import AIAssistantPage from './pages/AIAssistantPage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AutomationsPage from './pages/AutomationsPage'; 
 
 const App: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -41,6 +42,7 @@ const App: React.FC = () => {
         <Route path="/emails" element={<EmailsPage />} />
         <Route path="/emails/:id" element={<EmailDetailPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/automations" element={<AutomationsPage />} />
         <Route path="/ai-assistant" element={<AIAssistantPage />} />
         <Route path="/settings/*" element={<SettingsPage />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -53,6 +53,7 @@ const Sidebar: React.FC = () => {
         <NavItem to="/deals" icon="lucide:briefcase" label="ディール" />
         <NavItem to="/emails" icon="lucide:mail" label="メール" />
         <NavItem to="/calendar" icon="lucide:calendar" label="カレンダー" />
+        <NavItem to="/automations" icon="lucide:play-circle" label="オートメーション" />
         <NavItem to="/ai-assistant" icon="lucide:sparkles" label="AIアシスタント" />
       </nav>
       

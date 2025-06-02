@@ -1,3 +1,5 @@
+export * from './automation'; 
+
 // ユーザー関連
 export interface User {
     id: string;
@@ -179,3 +181,65 @@ export interface User {
   
   // ディールステージの型 (追加)
   export type DealStage = 'new' | 'negotiation' | 'contract' | 'lost';
+
+  // ユーザー関連
+  export interface User { 
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    role: string;
+  }
+// 連絡先関連
+  export interface Contact { 
+    id: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    email: string;
+    phone?: string;
+    companyId?: string;
+    company?: Company;
+    position?: string;
+    tags: string[];
+    lastContactedAt?: string;
+    status: 'active' | 'inactive' | 'lead';
+    createdAt: string;
+    updatedAt: string;
+    assignedTo?: string;
+    notes?: string;
+  }
+// 会社関連
+  export interface Company { 
+    id: string;
+    name: string;
+    domain?: string;
+    address?: string;
+    description?: string;
+    industry?: string;
+    size?: string;
+    website?: string;
+    logo?: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+// 取引関連
+// export type DealStage = 'new' | 'negotiation' | 'contract' | 'lost'; // automation.ts に移した場合
+  export interface Deal {
+    id: string;
+    title: string;
+    stage: DealStage; // automation.ts からインポートされる DealStage を使用
+    amount: number;
+    currency: string;
+    probability: number;
+    companyId: string;
+    company?: Company;
+    contactIds: string[];
+    contacts?: Contact[];
+    assignedTo?: string;
+    closingDate?: string;
+    createdAt: string;
+    updatedAt: string;
+    notes?: string;
+    order?: number;
+  }

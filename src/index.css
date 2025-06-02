@@ -72,3 +72,26 @@ body {
 .grayscale-theme {
   filter: grayscale(100%);
 }
+
+/* src/index.css */
+/* ... (既存のスタイル) ... */
+
+.reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+/* Attio風のドット背景 */
+.bg-dots .react-flow__background {
+  background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* カスタムノードのスタイル調整 (必要に応じて) */
+.react-flow__node-triggerNode,
+.react-flow__node-actionNode,
+.react-flow__node-switchNode {
+  /* 必要であればここに共通スタイル */
+  border-radius: 0.5rem; /* Tailwindのrounded-lg相当 */
+  /* box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); */ /* Tailwindのshadow-md相当 */
+}
