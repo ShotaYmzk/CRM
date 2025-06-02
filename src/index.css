@@ -95,3 +95,8 @@ body {
   border-radius: 0.5rem; /* Tailwindのrounded-lg相当 */
   /* box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); */ /* Tailwindのshadow-md相当 */
 }
+
+.calendar-month-day-cell {
+  min-height: 120px; /* 月表示の日付セルの最小高さ */
+  /* 他に必要なスタイルがあれば追加 */
+}
