@@ -34,7 +34,7 @@ import {
 } from '../../types'; // 型定義
 import CustomNode from './CustomNode';
 import CustomEdge from './CustomEdge'; // カスタムエッジを使用する場合
-import NodePalette from './NodePalette';
+// import NodePalette from './NodePalette'; // NodePaletteのimportを削除
 import WorkflowForm from './WorkflowForm'; // 設定フォーム
 
 interface WorkflowBuilderProps {
@@ -229,7 +229,7 @@ const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({ workflow, onSave, isC
         </div>
       </header>
       <div className="flex-1 flex overflow-hidden">
-        <NodePalette />
+        {/* <NodePalette /> NodePaletteの呼び出しを削除 */}
         <div className="flex-1 h-full" onDrop={onDrop} onDragOver={onDragOver}>
             <ReactFlow
                 nodes={nodes}

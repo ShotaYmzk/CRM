@@ -9,7 +9,7 @@ import RunHistoryPanel from '../components/automations/RunHistoryPanel';
 import { Workflow, WorkflowRun } from '../types'; // 必要に応じて automation.ts から
 import { mockWorkflows, mockWorkflowRuns } from '../utils/mockAutomations'; // モックデータ
 import { addToast } from '@heroui/react'; // 通知用
-import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels'; // インポート
+import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import NodePalette from '../components/automations/NodePalette';
 
 const AutomationsPage: React.FC = () => {
@@ -52,7 +52,7 @@ const AutomationsPage: React.FC = () => {
     setSelectedWorkflow(updatedWorkflow);
     setIsCreatingNew(false);
     addToast({ title: "ワークフローが保存されました", color: "success" });
-  }, []);
+  }, []); // 依存配列を空にしていますが、setWorkflows, setSelectedWorkflow, setIsCreatingNew, addToast が安定している前提
 
   const handleCreateNewWorkflow = () => {
     const newWorkflowId = `wf-${Date.now().toString()}`;
@@ -79,7 +79,14 @@ const AutomationsPage: React.FC = () => {
 
   // ダミーのワークフロー実行シミュレーション
   const simulateWorkflowRun = (workflow: Workflow) => {
-    if (!workflow.isEnabled) return;
+    if (!workflow.isEnabled) {
+        addToast({
+            title: "実行不可",
+            description: `ワークフロー "${workflow.name}" は現在無効です。有効化してから実行してください。`,
+            color: "warning"
+        });
+        return;
+    }
 
     addToast({
       title: "自動化実行中...",
@@ -117,13 +124,10 @@ const AutomationsPage: React.FC = () => {
 
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]"> {/* TopBarの高さを引く、flex-colに変更 */}
-      {/* PageHeader は PanelGroup の外に配置しても良い */}
-      {/* <PageHeader title="オートメーション" description="ワークフローを管理します" /> */}
-
+    <div className="flex flex-col h-[calc(100vh-4rem)]">
       <PanelGroup direction="horizontal" className="flex-1 overflow-hidden">
         {/* Panel 1: Workflow List */}
-        <Panel defaultSize={20} minSize={15} collapsible={true} className="flex flex-col !overflow-y-auto">
+        <Panel defaultSize={20} minSize={15} collapsible={false} className="flex flex-col !overflow-y-auto"> {/* collapsibleをfalseに変更 */}
           <div className="p-4 border-r border-divider h-full flex flex-col">
             <div className="flex justify-between items-center mb-4 flex-shrink-0">
               <h2 className="text-lg font-semibold">オートメーション</h2>
@@ -147,11 +151,11 @@ const AutomationsPage: React.FC = () => {
         </Panel>
         <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
 
-        {/* Panel 2: Main Area (NodePalette, WorkflowBuilder, RunHistoryPanel) */}
+        {/* Panel 2: Main Area */}
         <Panel defaultSize={80} minSize={30}>
           <PanelGroup direction="horizontal" className="h-full">
-            {/* NodePalette はここに1つだけ配置する */}
-            <Panel defaultSize={25} minSize={20} collapsible={true} className="!overflow-y-auto">
+            {/* Panel 2.1: NodePalette */}
+            <Panel defaultSize={25} minSize={20} collapsible={false} className="!overflow-y-auto"> {/* collapsibleをfalseに変更 */}
               <NodePalette />
             </Panel>
             <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
@@ -159,7 +163,7 @@ const AutomationsPage: React.FC = () => {
             {/* Panel 2.2: Workflow Builder */}
             <Panel defaultSize={selectedWorkflow ? 50 : 100} minSize={30}>
               {selectedWorkflow ? (
-                 <div className="h-full overflow-hidden"> {/* WorkflowBuilderが内部で高さを管理する場合 */}
+                 <div className="h-full overflow-hidden">
                   <WorkflowBuilder key={selectedWorkflow.id} workflow={selectedWorkflow} onSave={handleSaveWorkflow} isCreatingNew={isCreatingNew} onSimulateRun={() => simulateWorkflowRun(selectedWorkflow)} />
                 </div>
               ) : (
@@ -168,11 +172,12 @@ const AutomationsPage: React.FC = () => {
                 </div>
               )}
             </Panel>
-            {selectedWorkflow && ( // 実行履歴はワークフロー選択時のみ表示
+            
+            {/* Panel 2.3: Run History Panel (selectedWorkflowが存在する場合のみ表示) */}
+            {selectedWorkflow && (
               <>
                 <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
-                {/* Panel 2.3: Run History Panel */}
-                <Panel defaultSize={25} minSize={20} collapsible={true} className="!overflow-y-auto">
+                <Panel defaultSize={25} minSize={20} collapsible={false} className="!overflow-y-auto"> {/* collapsibleをfalseに変更 */}
                   <RunHistoryPanel workflowId={selectedWorkflow.id} runs={runHistory.filter(r => r.workflowId === selectedWorkflow.id)} />
                 </Panel>
               </>

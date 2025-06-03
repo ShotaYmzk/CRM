@@ -12,7 +12,8 @@ const CustomNode: React.FC<NodeProps<WorkflowNodeData>> = ({ data, selected, typ
   return (
     <>
       {/* <NodeResizer minWidth={180} minHeight={80} isVisible={selected} handleClassName="!w-3 !h-3 !bg-primary rounded-full" /> */}
-      <Card className={`w-56 shadow-md ${selected ? 'ring-2 ring-primary' : 'ring-1 ring-divider'}`}>
+      {/* ノードの横幅を w-56 から w-72 に変更 */}
+      <Card className={`w-72 shadow-md ${selected ? 'ring-2 ring-primary' : 'ring-1 ring-divider'}`}>
         <CardHeader className={`p-2 border-b border-divider flex items-center justify-between bg-${nodeColor}-50`}>
           <div className="flex items-center gap-1.5">
             {data.icon && <Icon icon={data.icon} className={`w-4 h-4 text-${nodeColor}-600`} />}
