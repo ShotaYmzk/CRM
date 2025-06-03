@@ -9,6 +9,8 @@ import RunHistoryPanel from '../components/automations/RunHistoryPanel';
 import { Workflow, WorkflowRun } from '../types'; // 必要に応じて automation.ts から
 import { mockWorkflows, mockWorkflowRuns } from '../utils/mockAutomations'; // モックデータ
 import { addToast } from '@heroui/react'; // 通知用
+import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels'; // インポート
+import NodePalette from '../components/automations/NodePalette';
 
 const AutomationsPage: React.FC = () => {
   const [workflows, setWorkflows] = useState<Workflow[]>(mockWorkflows);
@@ -115,53 +117,69 @@ const AutomationsPage: React.FC = () => {
 
 
   return (
-    <div className="flex h-[calc(100vh-4rem)]"> {/* TopBarの高さを引く */}
-      {/* Left Sidebar for Workflow List */}
-      <aside className="w-72 border-r border-divider p-4 flex flex-col">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">オートメーション</h2>
-          <Button
-            color="primary"
-            size="sm"
-            startContent={<Icon icon="lucide:plus" />}
-            onPress={handleCreateNewWorkflow}
-          >
-            新規作成
-          </Button>
-        </div>
-        <WorkflowList
-          workflows={workflows}
-          selectedWorkflowId={selectedWorkflow?.id}
-          onSelectWorkflow={handleSelectWorkflow}
-          onToggleWorkflow={handleToggleWorkflow}
-          onDeleteWorkflow={handleDeleteWorkflow}
-        />
-      </aside>
+    <div className="flex flex-col h-[calc(100vh-4rem)]"> {/* TopBarの高さを引く、flex-colに変更 */}
+      {/* PageHeader は PanelGroup の外に配置しても良い */}
+      {/* <PageHeader title="オートメーション" description="ワークフローを管理します" /> */}
 
-      {/* Main Area for Workflow Builder and Run History */}
-      <main className="flex-1 flex">
-        {selectedWorkflow ? (
-          <>
-            <div className="flex-1 p-0 overflow-hidden"> {/* パディングはBuilder内部で */}
-              <WorkflowBuilder
-                key={selectedWorkflow.id} // ワークフロー変更時に再マウントして初期化
-                workflow={selectedWorkflow}
-                onSave={handleSaveWorkflow}
-                isCreatingNew={isCreatingNew}
-                onSimulateRun={() => simulateWorkflowRun(selectedWorkflow)}
-              />
+      <PanelGroup direction="horizontal" className="flex-1 overflow-hidden">
+        {/* Panel 1: Workflow List */}
+        <Panel defaultSize={20} minSize={15} collapsible={true} className="flex flex-col !overflow-y-auto">
+          <div className="p-4 border-r border-divider h-full flex flex-col">
+            <div className="flex justify-between items-center mb-4 flex-shrink-0">
+              <h2 className="text-lg font-semibold">オートメーション</h2>
+              <Button
+                color="primary"
+                size="sm"
+                startContent={<Icon icon="lucide:plus" />}
+                onPress={handleCreateNewWorkflow}
+              >
+                新規作成
+              </Button>
             </div>
-            <RunHistoryPanel
-              workflowId={selectedWorkflow.id}
-              runs={runHistory.filter(r => r.workflowId === selectedWorkflow.id)}
+            <WorkflowList
+              workflows={workflows}
+              selectedWorkflowId={selectedWorkflow?.id}
+              onSelectWorkflow={handleSelectWorkflow}
+              onToggleWorkflow={handleToggleWorkflow}
+              onDeleteWorkflow={handleDeleteWorkflow}
             />
-          </>
-        ) : (
-          <div className="flex-1 flex items-center justify-center text-foreground-500">
-            ワークフローを選択するか、新規作成してください。
           </div>
-        )}
-      </main>
+        </Panel>
+        <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
+
+        {/* Panel 2: Main Area (NodePalette, WorkflowBuilder, RunHistoryPanel) */}
+        <Panel defaultSize={80} minSize={30}>
+          <PanelGroup direction="horizontal" className="h-full">
+            {/* NodePalette はここに1つだけ配置する */}
+            <Panel defaultSize={25} minSize={20} collapsible={true} className="!overflow-y-auto">
+              <NodePalette />
+            </Panel>
+            <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
+
+            {/* Panel 2.2: Workflow Builder */}
+            <Panel defaultSize={selectedWorkflow ? 50 : 100} minSize={30}>
+              {selectedWorkflow ? (
+                 <div className="h-full overflow-hidden"> {/* WorkflowBuilderが内部で高さを管理する場合 */}
+                  <WorkflowBuilder key={selectedWorkflow.id} workflow={selectedWorkflow} onSave={handleSaveWorkflow} isCreatingNew={isCreatingNew} onSimulateRun={() => simulateWorkflowRun(selectedWorkflow)} />
+                </div>
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-foreground-500 h-full">
+                  ワークフローを選択するか、新規作成してください。
+                </div>
+              )}
+            </Panel>
+            {selectedWorkflow && ( // 実行履歴はワークフロー選択時のみ表示
+              <>
+                <PanelResizeHandle className="w-1 bg-divider hover:bg-primary transition-colors data-[resize-handle-active]:bg-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none" />
+                {/* Panel 2.3: Run History Panel */}
+                <Panel defaultSize={25} minSize={20} collapsible={true} className="!overflow-y-auto">
+                  <RunHistoryPanel workflowId={selectedWorkflow.id} runs={runHistory.filter(r => r.workflowId === selectedWorkflow.id)} />
+                </Panel>
+              </>
+            )}
+          </PanelGroup>
+        </Panel>
+      </PanelGroup>
     </div>
   );
 };

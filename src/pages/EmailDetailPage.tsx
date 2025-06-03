@@ -64,18 +64,24 @@ const EmailDetailPage: React.FC = () => {
     }
   };
   
-  if (!email && !isLoading) {
+  // ローディング中の表示
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  
+  // メールが見つからない場合の表示
+  if (!email) {
     return (
       <div className="text-center py-12">
         <h2 className="text-xl font-semibold mb-2">メールが見つかりません</h2>
         <p className="text-foreground-500 mb-6">
           指定されたIDのメールは存在しないか、削除された可能性があります。
         </p>
-        <Button 
-          color="primary" 
-          onPress={handleBack}
-          startContent={<Icon icon="lucide:arrow-left" className="w-4 h-4" />}
-        >
+        <Button color="primary" onPress={handleBack} startContent={<Icon icon="lucide:arrow-left" className="w-4 h-4" />}>
           メール一覧に戻る
         </Button>
       </div>
@@ -85,7 +91,7 @@ const EmailDetailPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <PageHeader
-        title=""
+        title={email?.subject || 'メール詳細'}
         actions={
           <Button 
             variant="flat" 
@@ -98,7 +104,7 @@ const EmailDetailPage: React.FC = () => {
       />
       
       <EmailDetail
-        email={email!}
+        email={email}
         isLoading={isLoading}
         aiSummary={aiSummaryText}
         onAiSummarize={handleAiSummarize}
